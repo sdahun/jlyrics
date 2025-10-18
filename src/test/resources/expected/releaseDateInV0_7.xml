@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<song xmlns="http://openlyrics.info/namespace/2009/song" version="0.7" createdIn="JLyrics v1.0" modifiedIn="JLyrics v1.0" modifiedDate="2023-12-31T12:00:00+01:00">
+  <properties>
+    <titles>
+      <title>Unnamed song</title>
+    </titles>
+    <releaseDate>1779-12-31T13:15:30+01:00</releaseDate>
+  </properties>
+  <lyrics>
+    <verse name="v1">
+      <lines><line/></lines>
+    </verse>
+  </lyrics>
+</song>
