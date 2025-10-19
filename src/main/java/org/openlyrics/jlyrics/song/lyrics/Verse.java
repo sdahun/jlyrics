@@ -13,9 +13,12 @@ public class Verse implements ILyricsEntry {
     private String name = "v1";
     private String lang;
     private String translit;
-    List<VerseLine> lines = new ArrayList<>() {{
-        add(new VerseLine());
-    }};
+    List<VerseLine> lines = new ArrayList<>();
+
+    public Verse() {
+        //mandatory element for valid empty song
+        lines.add(new VerseLine());
+    }
 
     public String getFormattedName() {
         if (this.name == null) {

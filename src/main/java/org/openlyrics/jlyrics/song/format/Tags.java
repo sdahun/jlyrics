@@ -10,7 +10,11 @@ import java.util.List;
 @Accessors(chain = true)
 public class Tags {
     private String application;
-    private List<Tag> entries = new ArrayList<>() {{ add(new Tag()); }};
+    private List<Tag> entries = new ArrayList<>();
+
+    public Tags() {
+        entries.add(new Tag());
+    }
 
     public Tags getDeepCopy() {
         Tags copy = new Tags();

@@ -16,15 +16,15 @@ public class VerseUtils {
     public static final String VERSE_NAME_EXTRACT_REGEX = "^[vcpboie](\\d+)(.*)$";
 
     public static String getVerseNameByChar(char abbreviation) {
-        return switch (abbreviation) {
-            case 'v' -> "Verse";
-            case 'c' -> "Chorus";
-            case 'p' -> "Pre-Chorus";
-            case 'b' -> "Bridge";
-            case 'i' -> "Intro";
-            case 'e' -> "Ending";
-            default -> "Other";
-        };
+        switch (abbreviation) {
+            case 'v': return "Verse";
+            case 'c': return "Chorus";
+            case 'p': return "Pre-Chorus";
+            case 'b': return "Bridge";
+            case 'i': return "Intro";
+            case 'e': return "Ending";
+            default: return "Other";
+        }
     }
 
     public static List<ILyricsEntry> getLyricsEntriesByName(Song song, String name) {

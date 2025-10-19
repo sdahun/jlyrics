@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Data
 @Accessors(chain = true)
@@ -44,7 +45,7 @@ public class SongTransformerConfig {
     public List<String> getSongbookNames() {
         return songbooks.stream()
             .map(ConfigSongBookData::getName)
-            .toList();
+            .collect(Collectors.toList());
     }
 
     public String getShortNameForSongbook(String songbook) {

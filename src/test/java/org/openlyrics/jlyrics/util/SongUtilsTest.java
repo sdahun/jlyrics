@@ -9,6 +9,8 @@ import org.openlyrics.jlyrics.song.properties.Songbook;
 import java.io.InputStream;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -77,14 +79,14 @@ class SongUtilsTest {
 
     @Test
     void testExtractWordsToSet() throws Exception {
-        Set<String> expected = Set.of(
+        Set<String> expected = new HashSet<>(Arrays.asList(
                 "'Tis", "Amazing", "God's", "How", "I", "I'm", "Through", "Twas", "We've", "When", "a", "already",
                 "and", "appear", "as", "been", "begun", "believed", "blind", "bright", "brought", "but", "come",
                 "dangers", "days", "did", "far", "fear", "fears", "first", "found", "grace", "have", "heart", "home",
                 "hour", "how", "lead", "less", "like", "lost", "many", "me", "my", "no", "now", "once", "praise",
                 "precious", "relieved", "safe", "saved", "see", "shining", "sing", "snares", "sound", "sun", "sweet",
                 "taught", "ten", "than", "that", "the", "there", "thousand", "thus", "to", "toils", "was", "we'd",
-                "we've", "when", "will", "wretch", "years");
+                "we've", "when", "will", "wretch", "years"));
 
         Set<String> wordList = new TreeSet<>();
         try (

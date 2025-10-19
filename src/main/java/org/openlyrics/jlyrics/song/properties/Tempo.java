@@ -17,10 +17,11 @@ public class Tempo {
         }
         else {
             try {
-                this.value = switch (this.type) {
-                    case BPM -> (parseInt(value) >= 30 && parseInt(value) <= 250) ? value : null;
-                    case TEXT -> value;
-                };
+                if (this.type == TempoType.BPM) {
+                    this.value = (parseInt(value) >= 30 && parseInt(value) <= 250) ? value : null;
+                } else if (this.type == TempoType.TEXT) {
+                    this.value = value;
+                }
             }
             catch(NumberFormatException e) {
                 this.value = null;

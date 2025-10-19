@@ -45,7 +45,7 @@ public class OpenLPServiceReader implements IMassReader {
         InputStream jsonStream = zipFile.getInputStream(zipFile.getEntry("service_data.osj"));
 
         ObjectMapper mapper = new ObjectMapper();
-        List<ServiceEntry> entries = mapper.readValue(jsonStream, new TypeReference<>(){});
+        List<ServiceEntry> entries = mapper.readValue(jsonStream, new TypeReference<List<ServiceEntry>>(){});
         zipFile.close();
         jsonStream.close();
 

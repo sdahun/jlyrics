@@ -53,14 +53,18 @@ class OpenLPWriterTest {
     @Test
     void testNameSplitWithSpace() {
         String fullName = "John Doe";
-        List<String> expected = new ArrayList<>() {{ add("John"); add("Doe"); }};
+        List<String> expected = new ArrayList<>();
+        expected.add("John");
+        expected.add("Doe");
         assertEquals(expected, new OpenLPWriter().splitNameToFirstAndLast(fullName));
     }
 
     @Test
     void testNameSplitWithoutSpace() {
         String fullName = "PeterPan";
-        List<String> expected = new ArrayList<>() {{ add("PeterPan"); add(""); }};
+        List<String> expected = new ArrayList<>();
+        expected.add("PeterPan");
+        expected.add("");
         assertEquals(expected, new OpenLPWriter().splitNameToFirstAndLast(fullName));
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openlyrics.jlyrics.song.SongVersion.*;
+import static org.openlyrics.jlyrics.util.SongUtils.repeat;
 
 public class OpenLyricsWriter implements ILyricsWriter {
     private Song song;
@@ -328,10 +329,12 @@ public class OpenLyricsWriter implements ILyricsWriter {
     private XmlTag getLyricsTag() {
         XmlTag lyricsTag = new XmlTag("lyrics");
         for (ILyricsEntry lyricsEntry: song.getLyrics()) {
-            if (lyricsEntry instanceof Verse verse) {
+            if (lyricsEntry instanceof Verse) {
+                Verse verse = (Verse) lyricsEntry;
                 lyricsTag.addChild(getVerseTag(verse));
             } else
-            if (song.getVersion().compareTo(V0_9) >= 0 && lyricsEntry instanceof Instrument instrument) {
+            if (song.getVersion().compareTo(V0_9) >= 0 && lyricsEntry instanceof Instrument) {
+                Instrument instrument = (Instrument) lyricsEntry;
                 lyricsTag.addChild(getInstrumentTag(instrument));
             }
         }
@@ -378,10 +381,12 @@ public class OpenLyricsWriter implements ILyricsWriter {
             parentTag.addChild(new XmlTag("line"));
         } else {
             for (ILinePart part: parts) {
-                if (part instanceof Text text) {
+                if (part instanceof Text) {
+                    Text text = (Text) part;
                     parentTag.addChild(new XmlTag().setMultiline(false).setContent(text.getContent()));
                 } else
-                if (part instanceof Chord chord) {
+                if (part instanceof Chord) {
+                    Chord chord = (Chord) part;
                     XmlTag chordTag = new XmlTag("chord", chord.getMultiLine());
                     if (song.getVersion() == V0_8) {
                         chordTag.addAttribute("name", chord.getName());
@@ -405,7 +410,8 @@ public class OpenLyricsWriter implements ILyricsWriter {
                     }
                     parentTag.addChild(chordTag);
                 } else
-                if (part instanceof LineTag tag) {
+                if (part instanceof LineTag) {
+                    LineTag tag = (LineTag) part;
                     XmlTag tagTag = new XmlTag(tag.getName(), false);
                     for (Map.Entry<String, String> attr: tag.getProperties().entrySet()) {
                         tagTag.addAttribute(attr.getKey(), attr.getValue());
@@ -438,13 +444,15 @@ public class OpenLyricsWriter implements ILyricsWriter {
 
     private void addSubInstrumentLineParts(XmlTag parentTag, List<ILinePart> parts) {
         for (ILinePart part: parts) {
-            if (part instanceof Beat beat) {
+            if (part instanceof Beat) {
+                Beat beat = (Beat) part;
                 XmlTag beatTag = new XmlTag("beat", false);
                 if (!beat.getParts().isEmpty()) {
                     addSubInstrumentLineParts(beatTag, beat.getParts());
                 }
                 parentTag.addChild(beatTag);
-            } else if (part instanceof Chord chord) {
+            } else if (part instanceof Chord) {
+                Chord chord = (Chord) part;
                 XmlTag chordTag = new XmlTag("chord", false);
                 chordTag.addAttribute("root", chord.getRoot().getName());
 
@@ -514,7 +522,7 @@ public class OpenLyricsWriter implements ILyricsWriter {
                     boolean firstAttribute = true;
                     for (Map.Entry<String, String> elem: attributes.entrySet()) {
                         if(multilineAttributes && !firstAttribute) {
-                            str.append(newLine).append(" ".repeat(indent + (2 * baseIndent)));
+                            str.append(newLine).append(repeat(" ", indent + (2 * baseIndent)));
                         } else {
                             str.append(" ");
                         }
@@ -527,12 +535,12 @@ public class OpenLyricsWriter implements ILyricsWriter {
                     str.append(">");
                     for (XmlTag child: children) {
                         if (multiline) {
-                            str.append(newLine).append(" ".repeat(indent + baseIndent));
+                            str.append(newLine).append(repeat(" ", indent + baseIndent));
                         }
                         str.append(child.getStringContent(baseIndent));
                     }
                     if (multiline) {
-                        str.append(newLine).append(" ".repeat(indent));
+                        str.append(newLine).append(repeat(" ", indent));
                     }
                     str.append("</").append(tagName).append(">");
                 }

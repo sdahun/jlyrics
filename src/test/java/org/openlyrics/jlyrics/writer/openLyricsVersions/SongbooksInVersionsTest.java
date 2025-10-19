@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.openlyrics.jlyrics.util.SongUtils.readAllBytes;
 
 public class SongbooksInVersionsTest {
     private Song song;
@@ -32,7 +33,7 @@ public class SongbooksInVersionsTest {
                 InputStream expectedXml = this.getClass().getClassLoader().getResourceAsStream("expected/songbooksIn" + songVersion.toString() + ".xml");
                 ByteArrayOutputStream generatedXml = new ByteArrayOutputStream()
         ) {
-            String expected = (expectedXml != null) ? new String(expectedXml.readAllBytes()) : "";
+            String expected = (expectedXml != null) ? new String(readAllBytes(expectedXml)) : "";
             IOFactory.getNewWriter(WriterType.OPENLYRICS).write(song, generatedXml);
             assertEquals(expected, generatedXml.toString());
         }

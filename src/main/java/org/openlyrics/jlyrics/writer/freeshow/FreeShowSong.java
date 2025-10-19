@@ -104,7 +104,8 @@ public class FreeShowSong {
 
         Map<String, String> verseIds = new HashMap<>();
         song.getLyrics().forEach(lyricsEntry -> {
-            if (lyricsEntry instanceof Verse verse) {
+            if (lyricsEntry instanceof Verse) {
+                Verse verse = (Verse) lyricsEntry;
                 FreeShowSlide slide = new FreeShowSlide();
                 slide.setUid(getNewUid());
                 slide.setByVerseName(verse.getName());
@@ -113,11 +114,15 @@ public class FreeShowSong {
                 StringBuilder sb = new StringBuilder();
                 verse.getLines().forEach(verseLine ->
                     verseLine.getParts().forEach(part -> {
-                        if (part instanceof Text text) {
+                        if (part instanceof Text) {
+                            Text text = (Text) part;
                             sb.append(text.getContent());
                         }
-                        if (part instanceof LineTag tag && tag.getName().equals("br")) {
-                            sb.append("\n");
+                        if (part instanceof LineTag) {
+                            LineTag tag = (LineTag) part;
+                            if (tag.getName().equals("br")) {
+                                sb.append("\n");
+                            }
                         }
                     })
                 );

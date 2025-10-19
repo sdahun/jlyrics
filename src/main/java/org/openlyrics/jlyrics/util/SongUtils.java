@@ -9,6 +9,9 @@ import org.openlyrics.jlyrics.song.lyrics.linepart.LineTag;
 import org.openlyrics.jlyrics.song.lyrics.linepart.Text;
 import org.openlyrics.jlyrics.song.properties.Songbook;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -54,7 +57,8 @@ public class SongUtils {
         StringBuilder sb = new StringBuilder();
 
         for (ILyricsEntry entry : song.getLyrics()) {
-            if (entry instanceof Verse verse) {
+            if (entry instanceof Verse) {
+                Verse verse = (Verse) entry;
                 sb.append(getVerseTextContent(verse, appendVerseName)).append("\r\n\r\n");
             }
         }
@@ -91,7 +95,8 @@ public class SongUtils {
         StringBuilder sb = new StringBuilder();
 
         for (ILinePart part : parts) {
-            if (part instanceof Text text) {
+            if (part instanceof Text) {
+                Text text = (Text) part;
 
                 //modify text according to inline formatting context
                 //(https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace)
@@ -100,7 +105,8 @@ public class SongUtils {
                 //3. line breaks are converted to spaces
                 sb.append(text.getContent().replaceAll(" *\n *", " ").replaceAll("\t", " "));
             } else
-            if (part instanceof LineTag lineTag) {
+            if (part instanceof LineTag) {
+                LineTag lineTag = (LineTag) part;
                 if (lineTag.getName().equals("br")) {
                     sb.append("\r\n");
                 }
@@ -177,5 +183,23 @@ public class SongUtils {
             .filter(w -> !w.isEmpty())
             .collect(Collectors.toSet())
         );
+    }
+
+    public static byte[] readAllBytes(InputStream input) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] data = new byte[8192];
+        int nRead;
+        while ((nRead = input.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        return buffer.toByteArray();
+    }
+
+    public static String repeat(String what, int occurence) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < occurence; i++) {
+            sb.append(what);
+        }
+        return sb.toString();
     }
 }

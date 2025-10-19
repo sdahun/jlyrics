@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class Properties {
-    private List<Title> titles = new ArrayList<>() {{ add(new Title()); }};
+    private List<Title> titles = new ArrayList<>();
     private List<Author> authors = new ArrayList<>();
     private String copyright;
     private Integer ccliNo;
@@ -29,6 +29,11 @@ public class Properties {
     private List<Songbook> songbooks = new ArrayList<>();
     private List<Theme> themes = new ArrayList<>();
     private List<String> comments = new ArrayList<>();
+
+    public Properties() {
+        //mandatory element for valid empty song
+        titles.add(new Title());
+    }
 
     //ccliNo is positive integer!
     public Properties setCcliNo(Integer ccliNo) {

@@ -35,7 +35,12 @@ public class Song {
 
     private Properties properties = new Properties();
     private List<Tags> format = new ArrayList<>();
-    private List<ILyricsEntry> lyrics = new ArrayList<>() {{ add(new Verse()); }};
+    private List<ILyricsEntry> lyrics = new ArrayList<>();
+
+    public Song() {
+        //mandatory element for valid empty song
+        lyrics.add(new Verse());
+    }
 
     public Song getDeepCopy() {
         Song copy = new Song();

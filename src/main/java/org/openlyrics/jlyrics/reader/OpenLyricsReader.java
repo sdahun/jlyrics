@@ -18,20 +18,26 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
+import static org.openlyrics.jlyrics.util.SongUtils.readAllBytes;
 
 public class OpenLyricsReader implements ILyricsReader {
-    private static final Map<String, String> entities = Map.of( "&lt;", "=LT=", "&gt;", "=GT=");
+    private final static Map<String, String> entities = new HashMap<>();
+    static {
+        entities.put("&lt;", "=LT=");
+        entities.put("&gt;", "=GT=");
+    }
 
     private Document document;
     private Song song;
 
     @Override
     public Song read(InputStream inputStream) throws Exception {
-        String content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        String content = new String(readAllBytes(inputStream), StandardCharsets.UTF_8);
 
         //determine xml indentation
         this.song = new Song();
@@ -131,7 +137,8 @@ public class OpenLyricsReader implements ILyricsReader {
             if (titleList.getLength() > 0) {
                 this.song.getProperties().getTitles().clear();
                 for (int i = 0; i < titleList.getLength(); i++) {
-                    if (titleList.item(i) instanceof Element elTitle) {
+                    if (titleList.item(i) instanceof Element) {
+                        Element elTitle = (Element) titleList.item(i);
                         Title title = new Title().setTitle(elTitle.getTextContent());
 
                         if (elTitle.hasAttribute("lang")) {
@@ -158,7 +165,8 @@ public class OpenLyricsReader implements ILyricsReader {
             if (authorList.getLength() > 0) {
                 this.song.getProperties().getAuthors().clear();
                 for (int i = 0; i < authorList.getLength(); i++) {
-                    if (authorList.item(i) instanceof Element elAuthor) {
+                    if (authorList.item(i) instanceof Element) {
+                        Element elAuthor = (Element) authorList.item(i);
                         Author author = new Author().setName(elAuthor.getTextContent());
 
                         if (elAuthor.hasAttribute("type")) {
@@ -306,7 +314,8 @@ public class OpenLyricsReader implements ILyricsReader {
             if (songbookList.getLength() > 0) {
                 this.song.getProperties().getSongbooks().clear();
                 for (int i = 0; i < songbookList.getLength(); i++) {
-                    if (songbookList.item(i) instanceof Element elSongbook) {
+                    if (songbookList.item(i) instanceof Element) {
+                        Element elSongbook = (Element) songbookList.item(i);
                         Songbook songbook = new Songbook();
 
                         if (elSongbook.hasAttribute("name")) {
@@ -330,7 +339,8 @@ public class OpenLyricsReader implements ILyricsReader {
             if (themeList.getLength() > 0) {
                 this.song.getProperties().getThemes().clear();
                 for (int i = 0; i < themeList.getLength(); i++) {
-                    if (themeList.item(i) instanceof Element elTheme) {
+                    if (themeList.item(i) instanceof Element) {
+                        Element elTheme = (Element) themeList.item(i);
                         Theme theme = new Theme().setTheme(elTheme.getTextContent());
 
                         if (elTheme.hasAttribute("id")) {
@@ -357,7 +367,8 @@ public class OpenLyricsReader implements ILyricsReader {
             if (commentList.getLength() > 0) {
                 this.song.getProperties().getComments().clear();
                 for (int i = 0; i < commentList.getLength(); i++) {
-                    if (commentList.item(i) instanceof Element elComment) {
+                    if (commentList.item(i) instanceof Element) {
+                        Element elComment = (Element) commentList.item(i);
                         this.song.getProperties().getComments().add(elComment.getTextContent());
                     }
                 }
@@ -372,7 +383,8 @@ public class OpenLyricsReader implements ILyricsReader {
             if (tagsList.getLength() > 0) {
                 this.song.setFormat(new ArrayList<>());
                 for (int i = 0; i < tagsList.getLength(); i++) {
-                    if (tagsList.item(i) instanceof Element elTags) {
+                    if (tagsList.item(i) instanceof Element) {
+                        Element elTags = (Element) tagsList.item(i);
                         Tags tags = new Tags();
                         tags.getEntries().clear();
                         tags.setApplication(elTags.getAttribute("application"));
@@ -380,14 +392,16 @@ public class OpenLyricsReader implements ILyricsReader {
 
                         NodeList tagList = elTags.getChildNodes();
                         for (int j = 0; j < tagList.getLength(); j++) {
-                            if (tagList.item(j) instanceof Element elTag) {
+                            if (tagList.item(j) instanceof Element) {
+                                Element elTag = (Element) tagList.item(j);
                                 Tag tag = new Tag();
                                 tag.setName(elTag.getAttribute("name"));
                                 tags.getEntries().add(tag);
 
                                 NodeList entryList = elTag.getChildNodes();
                                 for (int k = 0; k < entryList.getLength(); k++) {
-                                    if (entryList.item(k) instanceof Element elEntry) {
+                                    if (entryList.item(k) instanceof Element) {
+                                        Element elEntry = (Element) entryList.item(k);
                                         if ("open".equals(elEntry.getTagName())) {
                                             tag.setOpen(decodeEntities(elEntry.getTextContent()));
                                         }
@@ -420,7 +434,8 @@ public class OpenLyricsReader implements ILyricsReader {
         this.song.getLyrics().clear();
 
         for (int i = 0; i < lyricsEntryList.getLength(); i++) {
-            if (lyricsEntryList.item(i) instanceof Element elEntry) {
+            if (lyricsEntryList.item(i) instanceof Element) {
+                Element elEntry = (Element) lyricsEntryList.item(i);
                 switch (elEntry.getTagName()) {
                     case "verse":
                         this.parseVerse(elEntry);
@@ -449,7 +464,8 @@ public class OpenLyricsReader implements ILyricsReader {
         if (linesList.getLength() > 0) {
             verse.getLines().clear();
             for (int i = 0; i < linesList.getLength(); i++) {
-                if (linesList.item(i) instanceof Element elLine) {
+                if (linesList.item(i) instanceof Element) {
+                    Element elLine = (Element) linesList.item(i);
                     this.parseVerseLine(verse, elLine);
                 }
             }
@@ -565,7 +581,8 @@ public class OpenLyricsReader implements ILyricsReader {
         if (linesList.getLength() > 0) {
             instrument.getLines().clear();
             for (int i = 0; i < linesList.getLength(); i++) {
-                if (linesList.item(i) instanceof Element elLine) {
+                if (linesList.item(i) instanceof Element) {
+                    Element elLine = (Element) linesList.item(i);
                     this.parseInstrumentLine(instrument, elLine);
                 }
             }

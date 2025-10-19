@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.openlyrics.jlyrics.util.SongUtils.readAllBytes;
 
 class SongTransformerTest {
     @Test
@@ -39,7 +40,7 @@ class SongTransformerTest {
             InputStream expectedStream = this.getClass().getClassLoader().getResourceAsStream("transform/transformed_empty.xml");
             ByteArrayOutputStream generatedXml = new ByteArrayOutputStream()
         ) {
-            String expected = (expectedStream != null) ? new String(expectedStream.readAllBytes()) : "";
+            String expected = (expectedStream != null) ? new String(readAllBytes(expectedStream)) : "";
             IOFactory.getNewWriter(WriterType.OPENLYRICS).write(song, generatedXml);
             assertEquals(expected, generatedXml.toString());
         }

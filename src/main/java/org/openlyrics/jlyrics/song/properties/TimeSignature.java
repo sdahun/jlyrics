@@ -3,6 +3,7 @@ package org.openlyrics.jlyrics.song.properties;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ import static java.lang.Integer.parseInt;
 @Data
 @Accessors(chain = true)
 public class TimeSignature {
-    private static final List<Integer> VALID_DENOMINATORS = List.of(1, 2, 4, 8, 16, 32, 64);
+    private static final List<Integer> VALID_DENOMINATORS = Arrays.asList(1, 2, 4, 8, 16, 32, 64);
 
     private int nominator = 4;
     private int denominator = 4;

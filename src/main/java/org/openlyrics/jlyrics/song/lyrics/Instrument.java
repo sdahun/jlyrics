@@ -10,9 +10,12 @@ import java.util.List;
 @Accessors(chain = true)
 public class Instrument implements ILyricsEntry {
     private String name = "i1";
-    List<InstrumentLine> lines = new ArrayList<>() {{
-        add(new InstrumentLine());
-    }};
+    List<InstrumentLine> lines = new ArrayList<>();
+
+    public Instrument() {
+        //mandatory element for valid empty song
+        lines.add(new InstrumentLine());
+    }
 
     @Override
     public ILyricsEntry getDeepCopy() {

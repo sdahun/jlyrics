@@ -39,7 +39,9 @@ public class PptxWriter implements ILyricsWriter {
         XSLFSlideMaster master = pptx.getSlideMasters().get(0);
 
         for (ILyricsEntry entry : song.getLyrics()) {
-            if (entry instanceof Verse verse) {
+            if (entry instanceof Verse) {
+                Verse verse = (Verse) entry;
+
                 //new slide
                 XSLFSlide slide = pptx.createSlide(master.getLayout(SlideLayout.BLANK));
 

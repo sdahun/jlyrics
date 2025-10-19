@@ -3,10 +3,12 @@ package org.openlyrics.jlyrics;
 import org.junit.jupiter.api.Test;
 import org.openlyrics.jlyrics.song.lyrics.Verse;
 import org.openlyrics.jlyrics.song.lyrics.VerseLine;
+import org.openlyrics.jlyrics.song.lyrics.linepart.ILinePart;
 import org.openlyrics.jlyrics.song.lyrics.linepart.Text;
 import org.openlyrics.jlyrics.util.VerseUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -29,13 +31,14 @@ class SongTest {
     void testIncrementVerseNumberForType() {
         Song song = new Song();
         song.getProperties().setVerseOrder("v1 v2");
-        song.getLyrics().add(
-            new Verse().setName("v2").setLines(new ArrayList<>() {{
-                add((VerseLine) new VerseLine().setParts(new ArrayList<>() {{
-                    add(new Text().setContent("Amazing grace! How sweet the sound!"));
-                }}));
-            }})
-        );
+        List<ILinePart> lineParts = new ArrayList<>();
+        lineParts.add(new Text().setContent("Amazing grace! How sweet the sound!"));
+
+        List<VerseLine> lines = new ArrayList<>();
+        lines.add((VerseLine) new VerseLine().setParts(lineParts));
+
+        song.getLyrics().add(new Verse().setName("v2").setLines(lines));
+
         VerseUtils.incrementVerseNumberForType(song, 'v', 2);
 
         assertEquals("v1", song.getLyrics().get(0).getName());

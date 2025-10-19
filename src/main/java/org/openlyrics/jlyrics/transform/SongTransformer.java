@@ -65,7 +65,8 @@ public class SongTransformer {
     }
 
     private ILyricsEntry getConfiguredVerse(ILyricsEntry entry, SongTransformerConfig config) {
-        if (entry instanceof Verse verse) {
+        if (entry instanceof Verse) {
+            Verse verse = (Verse) entry;
             verse.getLines().forEach(line -> configureLine(line, config));
         }
         return entry;
@@ -76,7 +77,8 @@ public class SongTransformer {
         item.getParts().clear();
         boolean afterNewLine = true;
         for (ILinePart part : parts) {
-            if (part instanceof Text text) {
+            if (part instanceof Text) {
+                Text text = (Text) part;
                 if (config.isFirstUppercase() && afterNewLine) {
                     text.setContent(text.getContent().substring(0,1).toUpperCase() + text.getContent().substring(1));
                 }

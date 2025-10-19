@@ -29,6 +29,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.openlyrics.jlyrics.util.SongUtils.readAllBytes;
+
 public class OpenLPWriter implements IMassWriter {
 
     private static final String selectLastInsertIdSQL =
@@ -180,7 +182,7 @@ public class OpenLPWriter implements IMassWriter {
             InputStream createStream = this.getClass().getClassLoader().getResourceAsStream("OpenLP.create.sql")
         ) {
             if (createStream != null) {
-                String[] createScript = new String(createStream.readAllBytes(), StandardCharsets.UTF_8).split(";");
+                String[] createScript = new String(readAllBytes(createStream), StandardCharsets.UTF_8).split(";");
                 for (String script : createScript) {
                     this.connection.prepareStatement(script).execute();
                 }
@@ -203,7 +205,8 @@ public class OpenLPWriter implements IMassWriter {
         elSong.appendChild(elLyrics);
 
         for (ILyricsEntry entry : song.getLyrics()) {
-            if (entry instanceof Verse verse) {
+            if (entry instanceof Verse) {
+                Verse verse = (Verse) entry;
                 Element elVerse = document.createElement("verse");
                 elVerse.setAttribute("A__type", verse.getName().substring(0, 1));
                 elVerse.setAttribute("B__label", verse.getName().substring(1));
@@ -230,7 +233,8 @@ public class OpenLPWriter implements IMassWriter {
         StringBuilder sb = new StringBuilder();
 
         for (ILyricsEntry entry : song.getLyrics()) {
-            if (entry instanceof Verse verse) {
+            if (entry instanceof Verse) {
+                Verse verse = (Verse) entry;
                 sb.append(SongUtils.getVerseTextContent(verse, false)).append(" ");
             }
         }
