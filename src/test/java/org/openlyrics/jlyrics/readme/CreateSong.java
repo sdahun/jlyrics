@@ -4,7 +4,6 @@ import org.openlyrics.jlyrics.Song;
 import org.openlyrics.jlyrics.song.Properties;
 import org.openlyrics.jlyrics.song.SongVersion;
 import org.openlyrics.jlyrics.song.lyrics.ILyricsEntry;
-import org.openlyrics.jlyrics.song.lyrics.MixedContainer;
 import org.openlyrics.jlyrics.song.lyrics.Verse;
 import org.openlyrics.jlyrics.song.lyrics.VerseLine;
 import org.openlyrics.jlyrics.song.lyrics.linepart.ILinePart;

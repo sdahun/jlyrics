@@ -13,6 +13,7 @@ import org.openlyrics.jlyrics.song.properties.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -57,10 +58,11 @@ public class OpenLyricsReader implements ILyricsReader {
         //replace all &lt; and &gt; to prevent parse them
         content = encodeEntities(content);
 
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
         try {
-            this.document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new ByteArrayInputStream(content.getBytes())));
+            this.document = builder.parse(new InputSource(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))));
         } catch (Exception e) {
-            System.out.println(content);
             throw new RuntimeException(e);
         }
         this.parseDOM();
