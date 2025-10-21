@@ -8,7 +8,8 @@ public enum WriterType {
     TEXT(TextWriter.class),
     PPTX(PptxWriter.class),
     RTF(RtfWriter.class),
-    FREESHOW(FreeShowWriter.class);
+    FREESHOW(FreeShowWriter.class),
+    QUELEA(QueleaSongWriter.class);
 
     private final Class<? extends ILyricsWriter> writerClass;
 

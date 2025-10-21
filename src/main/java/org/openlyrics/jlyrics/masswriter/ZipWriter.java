@@ -9,6 +9,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipWriter implements IMassWriter {
+    String fileExtension = ".zip";
     String path;
     ILyricsWriter writer;
     SongTransformerConfig config;
@@ -18,7 +19,13 @@ public class ZipWriter implements IMassWriter {
 
     @Override
     public String getFileExtension() {
-        return ".zip";
+        return fileExtension;
+    }
+
+    @Override
+    public IMassWriter setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
+        return this;
     }
 
     @Override

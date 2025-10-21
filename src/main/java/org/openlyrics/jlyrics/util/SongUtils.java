@@ -202,4 +202,27 @@ public class SongUtils {
         }
         return sb.toString();
     }
+
+    public static String encodeNumericEntities(String input) {
+        if (input == null) return null;
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < input.length(); i++) {
+            int codePoint = input.codePointAt(i);
+
+            // csak a 0x80–0xFFFF tartományban lévő karaktereket kódoljuk
+            if (codePoint >= 0x80 && codePoint <= 0xFFFF) {
+                sb.append("&#").append(codePoint).append(";");
+            } else {
+                sb.append(Character.toChars(codePoint));
+            }
+
+            // surrogate pair esetén lépjünk plusz egyet
+            if (Character.isSupplementaryCodePoint(codePoint)) {
+                i++;
+            }
+        }
+
+        return sb.toString();
+    }
 }

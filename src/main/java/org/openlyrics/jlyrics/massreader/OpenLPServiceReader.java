@@ -11,6 +11,7 @@ import org.openlyrics.jlyrics.reader.ReaderType;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,7 +86,7 @@ public class OpenLPServiceReader implements IMassReader {
         ++this.currentSong;
 
         try (
-            InputStream xmlStream = new ByteArrayInputStream(this.xmlEntries.get(this.currentSong).getBytes())
+            InputStream xmlStream = new ByteArrayInputStream(this.xmlEntries.get(this.currentSong).getBytes(StandardCharsets.UTF_8))
         ) {
             return IOFactory.getNewReader(ReaderType.OPENLYRICS).read(xmlStream);
         } catch (Exception e) {

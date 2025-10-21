@@ -11,6 +11,7 @@ import org.openlyrics.jlyrics.song.lyrics.linepart.*;
 import org.openlyrics.jlyrics.song.properties.*;
 
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class OpenLyricsWriter implements ILyricsWriter {
         this.song = song;
 
         String songXml = getXmlHeader() + getXmlBody() + song.getNewLine();
-        outputStream.write(songXml.getBytes());
+        outputStream.write(songXml.getBytes(StandardCharsets.UTF_8));
     }
 
     private String getXmlHeader() {

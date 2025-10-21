@@ -14,6 +14,11 @@ public interface IMassWriter extends AutoCloseable {
     IMassWriter add(Song song) throws Exception;
     String getFileExtension();
 
+    //Do nothing by default
+    default IMassWriter setFileExtension(String fileExtension) {
+        return this;
+    }
+
     default String generateFilename() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd_HH.mm.ss");
         return "sdahun_songs_" + dtf.format(LocalDateTime.now());

@@ -19,6 +19,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -193,7 +194,7 @@ public class OpenLPDBReader implements IMassReader {
         song.getLyrics().clear();
         Document document;
         try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new ByteArrayInputStream(xmlLyrics.getBytes())));
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new ByteArrayInputStream(xmlLyrics.getBytes(StandardCharsets.UTF_8))));
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new LyricsException(e.getMessage());
         }
