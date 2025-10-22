@@ -9,7 +9,7 @@ public enum WriterType {
     PPTX(PptxWriter.class),
     RTF(RtfWriter.class),
     FREESHOW(FreeShowWriter.class),
-    QUELEA(QueleaSongWriter.class);
+    QUELEA(QueleaWriter.class);
 
     private final Class<? extends ILyricsWriter> writerClass;
 

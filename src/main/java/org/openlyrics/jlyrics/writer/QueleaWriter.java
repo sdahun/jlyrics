@@ -2,7 +2,6 @@ package org.openlyrics.jlyrics.writer;
 
 import org.openlyrics.jlyrics.Song;
 import org.openlyrics.jlyrics.song.lyrics.*;
-import org.openlyrics.jlyrics.song.lyrics.linepart.*;
 import org.openlyrics.jlyrics.song.properties.*;
 import org.openlyrics.jlyrics.util.SongUtils;
 
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 import static org.openlyrics.jlyrics.util.SongUtils.encodeNumericEntities;
 import static org.openlyrics.jlyrics.util.SongUtils.getVerseTextContent;
 
-public class QueleaSongWriter implements ILyricsWriter {
+public class QueleaWriter implements ILyricsWriter {
 
     //There's no path in qsp file
     @Override
@@ -66,7 +65,8 @@ public class QueleaSongWriter implements ILyricsWriter {
             if (entry instanceof Verse) {
                 Verse verse = (Verse) entry;
 
-                String lyrics = getVerseTextContent(verse, false);
+                String lyrics = getVerseTextContent(verse, false)
+                    .replaceAll("\r\n\n", "\u00a0\n");
 
                 xml.append("<section title=\"").append(verse.getFormattedName()).append("\" capitalise=\"true\">")
                     .append("<theme>")

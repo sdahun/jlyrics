@@ -81,10 +81,11 @@ public class SongTransformer {
                 Text text = (Text) part;
                 if (config.isFirstUppercase() && afterNewLine) {
                     text.setContent(text.getContent().substring(0,1).toUpperCase() + text.getContent().substring(1));
+                    afterNewLine = false;
                 }
                 item.getParts().add(part);
             }
-            else {
+            else if (part instanceof LineTag) {
                 LineTag tag = (LineTag) part;
                 if (tag.getName().equals("br")) {
                     afterNewLine = true;
