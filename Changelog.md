@@ -1,4 +1,5 @@
 # Changelog
+- 1.0.5 Bugfix for QueleaWriter
 - 1.0.4
   - Bugfixes for SongTransformer
   - QueleaSongWriter renamed to QueleaWriter

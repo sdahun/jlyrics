@@ -66,7 +66,7 @@ public class QueleaWriter implements ILyricsWriter {
                 Verse verse = (Verse) entry;
 
                 String lyrics = getVerseTextContent(verse, false)
-                    .replaceAll("\r\n\n", "\u00a0\n");
+                    .replaceAll("\r\n\n", "\n\u00a0\n");
 
                 xml.append("<section title=\"").append(verse.getFormattedName()).append("\" capitalise=\"true\">")
                     .append("<theme>")
